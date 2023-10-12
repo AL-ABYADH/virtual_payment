@@ -24,6 +24,8 @@ Route.post('/register', 'UserRegisterController.register')
 
 Route.get('/checkUser', 'UserController.checkUser')
 
+Route.post('/pay', 'PaymentController.pay')
+
 Route.get('/', async () => {
-  return { hello: 'world' }
+    return { hello: 'world' }
 })

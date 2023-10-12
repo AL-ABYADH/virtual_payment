@@ -8,11 +8,11 @@ export default class UserSeeder extends BaseSeeder {
             await User.updateOrCreate(
                 { phoneNumber: `admin_phone${i}` },
                 {
-                  name: `Admin User ${i}`,
-                  phoneNumber: `admin_phone${i}`,
-                  balanceYER: 1000000.00,
-                  balanceUSD: 1000000.00,
-                  balanceSAR: 1000000.00,
+                    name: `Admin User ${i}`,
+                    phoneNumber: `admin_phone${i}`,
+                    balanceYER: 1000000.0,
+                    balanceUSD: 1000000.0,
+                    balanceSAR: 1000000.0,
                 }
             )
 
@@ -23,9 +23,9 @@ export default class UserSeeder extends BaseSeeder {
                 {
                     name: `Seller User ${i}`,
                     phoneNumber: `seller_phone${i}`,
-                    balanceYER: 1000000.00,
-                    balanceUSD: 1000000.00,
-                    balanceSAR: 1000000.00,
+                    balanceYER: 1000000.0,
+                    balanceUSD: 1000000.0,
+                    balanceSAR: 1000000.0,
                 }
             )
 
@@ -36,9 +36,9 @@ export default class UserSeeder extends BaseSeeder {
                 {
                     name: `Customer User ${i}`,
                     phoneNumber: `customer_phone${i}`,
-                    balanceYER: 1000000.00,
-                    balanceUSD: 1000000.00,
-                    balanceSAR: 1000000.00,
+                    balanceYER: 1000000.0,
+                    balanceUSD: 1000000.0,
+                    balanceSAR: 1000000.0,
                 }
             )
         }
