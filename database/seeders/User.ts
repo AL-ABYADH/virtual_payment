@@ -9,7 +9,7 @@ export default class UserSeeder extends BaseSeeder {
                 { phoneNumber: `admin_phone${i}` },
                 {
                     name: `Admin User ${i}`,
-                    phoneNumber: `admin_phone${i}`,
+                    phoneNumber: `77777777${i}`,
                     balanceYER: 1000000.0,
                     balanceUSD: 1000000.0,
                     balanceSAR: 1000000.0,
@@ -22,7 +22,7 @@ export default class UserSeeder extends BaseSeeder {
                 },
                 {
                     name: `Seller User ${i}`,
-                    phoneNumber: `seller_phone${i}`,
+                    phoneNumber: `77777778${i}`,
                     balanceYER: 1000000.0,
                     balanceUSD: 1000000.0,
                     balanceSAR: 1000000.0,
@@ -35,7 +35,7 @@ export default class UserSeeder extends BaseSeeder {
                 },
                 {
                     name: `Customer User ${i}`,
-                    phoneNumber: `customer_phone${i}`,
+                    phoneNumber: `77777788${i}`,
                     balanceYER: 1000000.0,
                     balanceUSD: 1000000.0,
                     balanceSAR: 1000000.0,
