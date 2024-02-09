@@ -6,10 +6,11 @@ export default class UserSeeder extends BaseSeeder {
         // Create 5 users for each role
         for (let i = 0; i < 5; i++) {
             await User.updateOrCreate(
-                { phoneNumber: `admin_phone${i}` },
+                {
+                    phoneNumber: `77777777${i}`,
+                },
                 {
                     name: `Admin User ${i}`,
-                    phoneNumber: `77777777${i}`,
                     balanceYER: 1000000.0,
                     balanceUSD: 1000000.0,
                     balanceSAR: 1000000.0,
@@ -18,11 +19,10 @@ export default class UserSeeder extends BaseSeeder {
 
             await User.updateOrCreate(
                 {
-                    phoneNumber: `seller_phone${i}`,
+                    phoneNumber: `77777778${i}`,
                 },
                 {
                     name: `Seller User ${i}`,
-                    phoneNumber: `77777778${i}`,
                     balanceYER: 1000000.0,
                     balanceUSD: 1000000.0,
                     balanceSAR: 1000000.0,
@@ -31,16 +31,28 @@ export default class UserSeeder extends BaseSeeder {
 
             await User.updateOrCreate(
                 {
-                    phoneNumber: `customer_phone${i}`,
+                    phoneNumber: `77777788${i}`,
                 },
                 {
                     name: `Customer User ${i}`,
-                    phoneNumber: `77777788${i}`,
                     balanceYER: 1000000.0,
                     balanceUSD: 1000000.0,
                     balanceSAR: 1000000.0,
                 }
             )
         }
+
+        // Create TrustTech account
+        User.updateOrCreate(
+            {
+                phoneNumber: `788888888`,
+            },
+            {
+                name: `TrustTech`,
+                balanceYER: 1000000.0,
+                balanceUSD: 1000000.0,
+                balanceSAR: 1000000.0,
+            }
+        )
     }
 }

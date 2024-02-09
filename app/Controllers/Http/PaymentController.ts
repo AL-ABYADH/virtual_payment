@@ -6,66 +6,77 @@ import User from 'App/Models/User'
 export default class PaymentController {
     public async pay({ request, response }: HttpContextContract) {
         try {
-            // Validate the request data
-            const validationSchema = schema.create({
-                from: schema.string({}, [rules.required()]),
-                to: schema.string({}, [rules.required()]),
-                amount: schema.number([rules.required()]),
-                currency: schema.enum(['YER', 'USD', 'SAR', rules.required()]),
-            })
+            const from = request.input('from')
+            const to = request.input('to')
+            const amount = request.input('amount')
+            const currency = request.input('currency')
 
-            const messages = {
-                required:
-                    'The {{ field }} is required to create a new account.',
-                enum: 'The {{ field }} should be "YER", "USD", or "SAR".',
+            if (!from) {
+                return response.status(400).send({
+                    message: 'The "from" parameter is required.',
+                })
             }
 
-            const data = await request.validate({
-                schema: validationSchema,
-                messages: messages,
-            })
+            if (!to) {
+                return response.status(400).send({
+                    message: 'The "to" parameter is required.',
+                })
+            }
 
-            const fromUser = await User.findBy('phone_number', data.from)
-            const toUser = await User.findBy('phone_number', data.to)
+            if (!amount || isNaN(amount)) {
+                return response.status(400).send({
+                    message:
+                        'The "amount" parameter is required and must be a number.',
+                })
+            }
+
+            if (!currency || !['YER', 'USD', 'SAR'].includes(currency)) {
+                return response.status(400).send({
+                    message:
+                        'The "currency" parameter is invalid. It should be "YER", "USD", or "SAR".',
+                })
+            }
+
+            // Find users by phone number
+            const fromUser = await User.findBy('phone_number', from)
+            const toUser = await User.findBy('phone_number', to)
 
             if (!fromUser) {
                 return response.status(404).send({
-                    status: 'error',
-                    message: `User with phone number (${data.from}) not found.`,
+                    message: `User with phone number (${from}) not found.`,
                 })
             } else if (!toUser) {
                 return response.status(404).send({
-                    status: 'error',
-                    message: `User with phone number (${data.to}) not found.`,
+                    message: `User with phone number (${to}) not found.`,
                 })
             }
 
-            switch (data.currency) {
+            switch (currency) {
                 case 'YER':
-                    if (fromUser.balanceYER >= data.amount) {
-                        fromUser.balanceYER -= data.amount
-                        toUser.balanceYER += data.amount
+                    if (fromUser.balanceYER >= amount) {
+                        fromUser.balanceYER -= amount
+                        toUser.balanceYER += amount
                     } else
                         throw new Exception(
-                            `Balance in ${data.currency} not enough for payment. Please recharge your ${data.currency} balance, or convert from other currencies.`
+                            `Balance in ${currency} not enough for payment. Please recharge your ${currency} balance, or convert from other currencies.`
                         )
                     break
                 case 'USD':
-                    if (fromUser.balanceUSD >= data.amount) {
-                        fromUser.balanceUSD -= data.amount
-                        toUser.balanceUSD += data.amount
+                    if (fromUser.balanceUSD >= amount) {
+                        fromUser.balanceUSD -= amount
+                        toUser.balanceUSD += amount
                     } else
                         throw new Exception(
-                            `Balance in ${data.currency} not enough for payment. Please recharge your ${data.currency} balance, or convert from other currencies.`
+                            `Balance in ${currency} not enough for payment. Please recharge your ${currency} balance, or convert from other currencies.`
                         )
                     break
                 case 'SAR':
-                    if (fromUser.balanceSAR >= data.amount) {
-                        fromUser.balanceSAR -= data.amount
-                        toUser.balanceSAR += data.amount
+                    if (fromUser.balanceSAR >= amount) {
+                        fromUser.balanceSAR -= amount
+                        toUser.balanceSAR += amount
                     } else
                         throw new Exception(
-                            `Balance in ${data.currency} not enough for payment. Please recharge your ${data.currency} balance, or convert from other currencies.`
+                            `Balance in ${currency} not enough for payment. Please recharge your ${currency} balance, or convert from other currencies.`
                         )
                     break
             }
@@ -76,7 +87,6 @@ export default class PaymentController {
             return response.ok({ message: 'Transfer successful.' })
         } catch (err) {
             return response.status(400).send({
-                status: 'error',
                 message: err.message,
                 errors: err.messages,
             })

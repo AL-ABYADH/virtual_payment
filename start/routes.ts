@@ -22,9 +22,10 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.post('/register', 'UserRegisterController.register')
 
-Route.get('/checkUser', 'UserController.checkUser')
+Route.get('/check-payment-account', 'UserController.checkPaymentAccount')
+Route.get('/check-balance', 'UserController.checkBalance')
 
-Route.post('/pay', 'PaymentController.pay')
+Route.put('/pay', 'PaymentController.pay')
 
 Route.get('/', async () => {
     return { hello: 'world' }
