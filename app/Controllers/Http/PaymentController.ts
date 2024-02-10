@@ -1,6 +1,5 @@
 import { Exception } from '@adonisjs/core/build/standalone'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import { schema, rules } from '@ioc:Adonis/Core/Validator'
 import User from 'App/Models/User'
 
 export default class PaymentController {
@@ -10,6 +9,8 @@ export default class PaymentController {
             const to = request.input('to')
             const amount = request.input('amount')
             const currency = request.input('currency')
+
+            // console.log(amount)
 
             if (!from) {
                 return response.status(400).send({
@@ -53,27 +54,27 @@ export default class PaymentController {
 
             switch (currency) {
                 case 'YER':
-                    if (fromUser.balanceYER >= amount) {
-                        fromUser.balanceYER -= amount
-                        toUser.balanceYER += amount
+                    if (fromUser.balanceYER >= Number(amount)) {
+                        fromUser.balanceYER -= Number(amount)
+                        toUser.balanceYER += Number(amount)
                     } else
                         throw new Exception(
                             `Balance in ${currency} not enough for payment. Please recharge your ${currency} balance, or convert from other currencies.`
                         )
                     break
                 case 'USD':
-                    if (fromUser.balanceUSD >= amount) {
-                        fromUser.balanceUSD -= amount
-                        toUser.balanceUSD += amount
+                    if (fromUser.balanceUSD >= Number(amount)) {
+                        fromUser.balanceUSD -= Number(amount)
+                        toUser.balanceUSD += Number(amount)
                     } else
                         throw new Exception(
                             `Balance in ${currency} not enough for payment. Please recharge your ${currency} balance, or convert from other currencies.`
                         )
                     break
                 case 'SAR':
-                    if (fromUser.balanceSAR >= amount) {
-                        fromUser.balanceSAR -= amount
-                        toUser.balanceSAR += amount
+                    if (fromUser.balanceSAR >= Number(amount)) {
+                        fromUser.balanceSAR -= Number(amount)
+                        toUser.balanceSAR += Number(amount)
                     } else
                         throw new Exception(
                             `Balance in ${currency} not enough for payment. Please recharge your ${currency} balance, or convert from other currencies.`
